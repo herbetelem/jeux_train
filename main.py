@@ -7,6 +7,8 @@ import ramasserEnergy as ramasserEnergy
 import ramasserMine as ramasserMine
 import livraison as livraison
 import checkForTheWin as checkForTheWin
+import loose as loose
+import win as win
 
 
 print("Bonjour, blablabla jeux")
@@ -16,10 +18,6 @@ mode = str(input("mode auto, oui ou non ? "))
 if mode == "oui":
     longVoie = 50
     maxCargaison = 10
-    mapNormal = ["="] * longVoie
-    mapEnergy = ["-"] * longVoie
-    mapMine = ["-"] * longVoie
-    cargaison = 0
     nbSpot = 20
     nbRecharge = 5
     energy = 200
@@ -29,19 +27,20 @@ if mode == "oui":
 else:
     longVoie = int(input("longueur de la voie : "))
     maxCargaison = int(input("nombre de cargason max : "))
-    mapNormal = ["="] * longVoie
-    mapEnergy = ["-"] * longVoie
-    mapMine = ["-"] * longVoie
-    cargaison = 0
     nbSpot = int(input("nombre de spot : "))
     nbRecharge = int(input("nombre de recharge : "))
     energy = int(input("max energie : "))
     regenEnergy = int(input("regen energie : "))
     coutRun = int(input("cout d'energie par deplacement : "))
     coutCharge = int(input("cout d'energie par chargement : "))
+
+tour = 0
+cargaison = 0
+mapNormal = ["="] * longVoie
+mapEnergy = ["-"] * longVoie
+mapMine = ["-"] * longVoie
 positionTrain = 0
 statut = "ok"
-
 actionPossible = ["ramasser", "rouler", "livraison"]
 mapPrintedEnergy = printMapEnergy.printMapEnergy(nbRecharge, mapEnergy)
 mapPrintedMine = printMapMine.printMapMine(nbSpot, mapMine)
@@ -54,12 +53,12 @@ print(mapPrintedMine)
 print("Il vous reste " + str(printEnergy.printEnergy(energy, 0, coutRun)) + " energie")
 
 while statut == "ok":
-    if positionTrain == 0:
-        if checkForTheWin.checkForTheWin(mapPrintedMine, longVoie):
-            statut = "win"
-    
     if energy <= 0:
         statut = "ko"
+    
+    if positionTrain == 0 and tour > 0:
+        if checkForTheWin.checkForTheWin(mapPrintedMine, longVoie):
+            statut = "win"
     else:
         action = str(input("Que voulez vous faire ? rouler ou ramasser : "))
         while action not in actionPossible:
@@ -112,28 +111,11 @@ while statut == "ok":
         if cargaison > 0:
             print("Si vous souhaitez vider votre chargement saisissez 'livraison'.")
         print()
+        tour += 1
 
 
 if statut == "ko":
-    print()
-    print("   ________                        ________                      ")
-    print("  /  _____/_____    _____   ____   \_____  \___  __ ___________  ")
-    print(" /   \  ___\__  \  /     \_/ __ \   /   |   \  \/ // __ \_  __ \ ")
-    print(" \    \_\  \/ __ \|  Y Y  \  ___/  /    |    \   /\  ___/|  | \/ ")
-    print("  \______  (____  /__|_|  /\___  > \_______  /\_/  \___  >__|    ")
-    print("         \/     \/      \/     \/          \/          \/        ")
+    loose.loose(tour)
 
 elif statut == "win":
-    print()
-    print("                  _-====-__-======-__-========-_____-============-__")
-    print("                _(                                                 _)")
-    print("             OO(            Vous avez Gagné, BRAVO !!!               )_")
-    print("            0  (_                                                   _)")
-    print("          o0     (_                                                _)")
-    print("         o         '=-___-===-_____-========-___________-===-dwb-='")
-    print("       .o                                _________")
-    print("      . ______          ______________  |         |      _____")
-    print("    _()_||__|| ________ |            |  |_________|   __||___||__")
-    print("   (         | |      | |            | __Y______00_| |_         _|")
-    print("  /-OO----OO''=''OO--OO'='OO--------OO'='OO-------OO'='OO-------OO'=P")
-    print("######################################################################")
+    win.win(tour)
