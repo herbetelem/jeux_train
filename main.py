@@ -10,6 +10,7 @@ import checkForTheWin as checkForTheWin
 import loose as loose
 import win as win
 import testson as son
+import checkIsInt as checkIsInt
 
 
 print("Bonjour, blablabla jeux")
@@ -125,3 +126,4 @@ if statut == "ko":
 
 elif statut == "win":
     win.win(tour)
+    son.playMusicWin()
