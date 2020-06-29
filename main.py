@@ -102,7 +102,7 @@ while statut == "ok":
             cargo = action[2]
         else:
             action = ramasserEnergy.ramasserEnergy(
-                mapEnergy, energy, regenEnergy, positionTrain, coutCharge)
+                mapPrintedEnergy, energy, regenEnergy, positionTrain, coutCharge)
             energy = action[1]
             mapPrintedEnergy = action[0]
     else:
