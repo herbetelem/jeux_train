@@ -30,6 +30,7 @@ if mode == "oui":
     regenEnergy = 50
     coutRun = 1
     coutCharge = 2
+
 else:
     longWay = int(input("longueur de la voie : "))
     MaxCargo = int(input("nombre de cargason max : "))
@@ -60,7 +61,7 @@ clear()
 print(printMap.printMap(0, mapNormal))
 print(mapPrintedEnergy)
 print(mapPrintedMine)
-print("Il vous reste " + str(printEnergy.printEnergy(energy, 0, coutRun)) + " energie")
+print(f"Il vous reste {printEnergy.printEnergy(energy, 0, coutRun)} energie")
 
 
 
@@ -69,66 +70,81 @@ while statut == "ok":
     action = str(input("Que voulez vous faire ? rouler ou ramasser : "))
     while action not in actionPossible:
         action = str(input("rouler ou ramasser : "))
+
     if action == "rouler":
         moove = int(input(
             "quel distance voulez vous parcourir (positif pour aller en avant et negatif pour l'arriere) : "))
+
         while (positionTrain + moove) < 0 or (positionTrain + moove) > longWay:
             moove = int(input("veuillez ne pas sortir des voies "))
+
         positionTrain = positionTrain + moove
         energy = printEnergy.printEnergy(energy, abs(moove), coutRun)
 
     elif action == "ramasser":
         if mapPrintedMine[positionTrain] == "-" and mapPrintedEnergy[positionTrain] == "-":
             print("Il n'y a rien a ramsser ici")
+
         elif checkInt.checkInt(mapPrintedMine[positionTrain]) and mapPrintedEnergy[positionTrain] == "z":
             print("deux option s'offre avous, ramasser de l'energie ou des chargement")
             ChoicePickUp = str(
                 input("que souhaitez vous prendre: energie ou chargement : "))
             choixPossible = ["energie", "chargement"]
+
             while ChoicePickUp not in choixPossible:
                 ChoicePickUp = str(
                     input("energie ou chargement sont vos seuls option : "))
+
             if ChoicePickUp == "energie":
                 action = ramasserEnergy.ramasserEnergy(
                     mapEnergy, energy, regenEnergy, positionTrain, coutCharge)
                 energy = action[1]
                 mapPrintedEnergy = action[0]
+
             else:
                 action = ramasserMine.ramasserMine(
                     mapPrintedMine, energy, cargo, positionTrain, coutCharge, MaxCargo)
                 energy = action[1]
                 mapPrintedMine = action[0]
                 cargo = action[2]
+
         elif checkInt.checkInt(mapPrintedMine[positionTrain]):
             action = ramasserMine.ramasserMine(
                 mapPrintedMine, energy, cargo, positionTrain, coutCharge, MaxCargo)
             energy = action[1]
             mapPrintedMine = action[0]
             cargo = action[2]
+
         else:
             action = ramasserEnergy.ramasserEnergy(
                 mapPrintedEnergy, energy, regenEnergy, positionTrain, coutCharge)
             energy = action[1]
             mapPrintedEnergy = action[0]
+
     else:
         action = livraison.livraison(energy, positionTrain)
         energy = action
         cargo = 0
         positionTrain = 0
+
     clear()
     print(printMap.printMap(positionTrain, mapNormal))
     print(mapPrintedEnergy)
     print(mapPrintedMine)
     print()
-    print("Il vous reste " + str(energy) + " energie")
-    print("Votre chagement est de " + str(cargo) + "/" + str(MaxCargo) + ".")
+    print(f"Il vous reste {energy} energie")
+    print(f"Votre chagement est de {cargo}/{MaxCargo}.")
+
     if cargo > 0:
         print("Si vous souhaitez vider votre chargement saisissez 'livraison'.")
+
     print()
     lap += 1
+
     if positionTrain == 0 and lap > 0:
         if checkForTheWin.checkForTheWin(mapPrintedMine, longWay):
             statut = "win"
+            
     elif energy <= 0:
         statut = "ko"
 
