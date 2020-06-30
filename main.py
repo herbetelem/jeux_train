@@ -33,7 +33,13 @@ if mode == "oui":
 
 else:
     longWay = int(input("longueur de la voie : "))
+    while longWay > 100 or longWay < 50:
+        longWay = int(input("entre 50 et 100 : "))
+
     MaxCargo = int(input("nombre de cargason max : "))
+    while MaxCargo > 30 or MaxCargo < 10:
+        MaxCargo = int(input("entre 10 et 30 : "))
+
     nbSpot = int(input("nombre de spot : "))
     nbRecharge = int(input("nombre de recharge : "))
     energy = int(input("max energie : "))
@@ -144,7 +150,7 @@ while statut == "ok":
     if positionTrain == 0 and lap > 0:
         if checkForTheWin.checkForTheWin(mapPrintedMine, longWay):
             statut = "win"
-            
+
     elif energy <= 0:
         statut = "ko"
 
