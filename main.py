@@ -12,6 +12,8 @@ import loose as loose
 import win as win
 import testson as son
 import checkIsInt as checkIsInt
+import os
+
 
 
 print("Bonjour, blablabla jeux")
@@ -38,6 +40,7 @@ else:
     coutRun = int(input("cout d'energie par deplacement : "))
     coutCharge = int(input("cout d'energie par chargement : "))
 
+clear = lambda: os.system('cls')
 lap = 0
 cargo = 0
 mapNormal = ["="] * longWay
@@ -46,12 +49,14 @@ mapMine = ["-"] * longWay
 positionTrain = 0
 statut = "ok"
 actionPossible = ["ramasser", "rouler", "livraison"]
+
 mapPrintedEnergy = printMapEnergy.printMapEnergy(nbRecharge, mapEnergy)
 mapPrintedMine = printMapMine.printMapMine(nbSpot, mapMine)
 
 
 
 #print First map
+clear()
 print(printMap.printMap(0, mapNormal))
 print(mapPrintedEnergy)
 print(mapPrintedMine)
@@ -110,6 +115,7 @@ while statut == "ok":
         energy = action
         cargo = 0
         positionTrain = 0
+    clear()
     print(printMap.printMap(positionTrain, mapNormal))
     print(mapPrintedEnergy)
     print(mapPrintedMine)
